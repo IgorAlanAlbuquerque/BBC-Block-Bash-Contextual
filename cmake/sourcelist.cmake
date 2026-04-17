@@ -1,0 +1,12 @@
+set(sources
+    src/plugin.cpp
+    src/Hooks.cpp
+    src/AnimListener.cpp
+    src/InputListener.cpp
+    src/InputHandler.cpp
+    src/Detours/detours.cpp
+    src/Detours/disasm.cpp
+    src/Detours/disolx64.cpp
+    src/Detours/image.cpp
+    src/Detours/modules.cpp
+)

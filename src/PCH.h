@@ -7,3 +7,13 @@
 #include "SKSE/SKSE.h"
 
 using namespace std::literals;
+
+
+
+#define DEBUG
+
+#ifdef DEBUG
+    #define BBC_DEBUG_LOG(...) spdlog::info(__VA_ARGS__)
+#else
+    #define BBC_DEBUG_LOG(...) ((void)0)
+#endif
