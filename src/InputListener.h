@@ -1,25 +1,30 @@
 #pragma once
 #include "PCH.h"
 
-class InputListener : public RE::BSTEventSink<SKSE::ModCallbackEvent>
+namespace InputListener
 {
-public:
-    static InputListener *GetSingleton()
+    class InputListener : public RE::BSTEventSink<SKSE::ModCallbackEvent>
     {
-        static InputListener singleton;
-        return &singleton;
-    }
-
-    static void Register()
-    {
-        auto eventSource = SKSE::GetModCallbackEventSource();
-        if (eventSource)
+    public:
+        static InputListener *GetSingleton()
         {
-            eventSource->AddEventSink(GetSingleton());
+            static InputListener singleton;
+            return &singleton;
         }
-    }
 
-    RE::BSEventNotifyControl ProcessEvent(
-        const SKSE::ModCallbackEvent *a_event,
-        RE::BSTEventSource<SKSE::ModCallbackEvent> *) override;
-};
+        static void Register()
+        {
+            auto eventSource = SKSE::GetModCallbackEventSource();
+            if (eventSource)
+            {
+                eventSource->AddEventSink(GetSingleton());
+            }
+        }
+
+        RE::BSEventNotifyControl ProcessEvent(
+            const SKSE::ModCallbackEvent *a_event,
+            RE::BSTEventSource<SKSE::ModCallbackEvent> *) override;
+    };
+
+    void UpdateHoldLogic();
+}

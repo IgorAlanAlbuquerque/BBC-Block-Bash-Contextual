@@ -1,17 +1,6 @@
 #include "InputHandler.h"
 #include "BBCState.h"
-
-static RE::ButtonEvent *MakeSyntheticBlockUpEvent()
-{
-    static const RE::BSFixedString userEvent("Left Attack/Block");
-
-    return RE::ButtonEvent::Create(
-        RE::INPUT_DEVICE::kMouse,
-        userEvent,
-        1,
-        0.0f,
-        0.0f);
-}
+#include "InputListener.h"
 
 inline bool IsBlockButton(const RE::ButtonEvent *btn)
 {
@@ -33,18 +22,9 @@ inline bool IsBlockButton(const RE::ButtonEvent *btn)
 
 void InputHandler::ProcessAndFilter(RE::InputEvent **head)
 {
+    InputListener::UpdateHoldLogic();
     if (!head)
         return;
-
-    if (BBC::ConsumeSyntheticBlockUpRequest())
-    {
-        if (auto *synthetic = MakeSyntheticBlockUpEvent())
-        {
-            BBC_DEBUG_LOG("[BBC] Injecting synthetic Left Attack/Block Up");
-            synthetic->next = *head;
-            *head = synthetic;
-        }
-    }
 
     if (!*head)
         return;

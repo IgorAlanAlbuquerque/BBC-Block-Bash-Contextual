@@ -1,10 +1,10 @@
 #include "Hooks.h"
 
 #include "PCH.h"
-#include "AnimListener.h"
 #include "HookUtil.hpp"
 #include "InputHandler.h"
 #include "BBCState.h"
+#include "AnimListener.h"
 
 namespace Hooks
 {
@@ -77,7 +77,8 @@ namespace Hooks
                     const char *s = a_eventName.c_str();
                     const std::string_view tag = s ? s : "";
 
-                    if (tag == "bashStart")
+                    BBC_DEBUG_LOG("[GraphNotify] event={}", tag);
+                    if (tag == "bashStart" || tag == "bashPowerStart")
                     {
                         const bool own =
                             BBC::g_bashOwnedByMod.load(std::memory_order_relaxed);
