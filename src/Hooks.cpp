@@ -77,6 +77,7 @@ namespace Hooks
                     const char *s = a_eventName.c_str();
                     const std::string_view tag = s ? s : "";
 
+                    if(tag != "Collision_RecoilStop" && tag != "TDM_Turn_180" && tag != "turnStop")
                     BBC_DEBUG_LOG("[GraphNotify] event={}", tag);
                     if (tag == "bashStart" || tag == "bashPowerStart")
                     {

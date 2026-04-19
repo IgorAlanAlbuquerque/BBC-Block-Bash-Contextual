@@ -9,6 +9,6 @@ void Settings::Load()
 
     g_requirePowerBashPerk = ini.GetBoolValue("BBC", "bRequirePowerBashPerk", true);
 
-    const char *perkIDStr = ini.GetValue("BBC", "uPowerBashPerkID", "0x0058F61");
+    const char *perkIDStr = ini.GetValue("BBC", "uPowerBashPerkID", "0x0058F67");
     g_powerBashPerkID = static_cast<RE::FormID>(std::stoul(perkIDStr, nullptr, 16));
 }

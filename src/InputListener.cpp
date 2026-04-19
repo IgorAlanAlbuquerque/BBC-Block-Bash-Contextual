@@ -69,7 +69,9 @@ RE::BSEventNotifyControl InputListener::InputListener::ProcessEvent(
             {
                 if (Settings::g_requirePowerBashPerk)
                 {
-                    static const auto powerBashPerk = RE::TESForm::LookupByID<RE::BGSPerk>(Settings::g_powerBashPerkID);
+                    BBC_DEBUG_LOG("[Input] Checking for Power Bash perk (ID={:08X})", Settings::g_powerBashPerkID);
+                    const auto powerBashPerk = RE::TESForm::LookupByID<RE::BGSPerk>(Settings::g_powerBashPerkID);
+                    BBC_DEBUG_LOG("[Input] powerBashPerk lookup = {}", powerBashPerk ? "OK" : "nullptr");
                     if (auto const *player = RE::PlayerCharacter::GetSingleton(); !player || !powerBashPerk || !player->HasPerk(powerBashPerk))
                     {
                         BBC_DEBUG_LOG("[Input] No Power Bash perk → Immediate Normal Bash");

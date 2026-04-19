@@ -5,7 +5,7 @@
 namespace Settings
 {
     inline bool g_requirePowerBashPerk = true;
-    inline RE::FormID g_powerBashPerkID = 0x0058F61;
+    inline RE::FormID g_powerBashPerkID = 0x0058F67;
 
     void Load();
 }
