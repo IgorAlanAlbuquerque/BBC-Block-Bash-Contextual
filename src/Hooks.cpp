@@ -33,7 +33,7 @@ namespace Hooks
 
             static void Install()
             {
-                Hook::stl::write_call<PollInputDevicesHook>(REL::RelocationID(67315, 68617),
+                Hook::stl::write_call<PollInputDevicesHook>(REL::RelocationID(67315, 68617, 0xC519E0),
                                                             REL::VariantOffset(0x7B, 0x7B, 0x81));
             }
         };

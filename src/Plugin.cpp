@@ -31,11 +31,15 @@ int FindOrCreateAction(InputManagerAPI::IInputManager *api, const char *name)
 {
     const size_t count = api->GetInputCount(0);
 
+    BBC_DEBUG_LOG("[API] Searching for existing action '{}' among {} actions.", name, count);
     for (size_t i = 0; i < count; ++i)
     {
         const char *existing = api->GetInputName(0, static_cast<int>(i));
         if (existing && std::strcmp(existing, name) == 0)
+        {
+            BBC_DEBUG_LOG("[API] Found existing action '{}' with ID {}", name, i);
             return static_cast<int>(i);
+        }
     }
 
     return api->CreateInput(0, name);
@@ -61,7 +65,7 @@ void SetupInputManagerAPI()
         "Double Tap to Bash | Hold second tap to Power Bash",
         true);
 
-    if (auto tapInfo = api->GetActionInfo(g_BlockActionID); tapInfo.pcMainKey == 0)
+    if (auto tapInfo = api->GetActionInfo(g_BlockActionID); tapInfo.pcMainKey == 0 && tapInfo.gamepadMainKey == 0)
     {
         tapInfo.id = g_BlockActionID;
         tapInfo.name = "Bash";
@@ -71,8 +75,8 @@ void SetupInputManagerAPI()
         tapInfo.gamepadMainAction = 4;
         tapInfo.isValid = true;
         api->UpdateActionMapping(g_BlockActionID, tapInfo);
+        spdlog::info("[API] Actions configured.");
     }
-    spdlog::info("[API] Actions configured.");
 }
 
 void GlobalMessageHandler(SKSE::MessagingInterface::Message *msg)
@@ -82,10 +86,16 @@ void GlobalMessageHandler(SKSE::MessagingInterface::Message *msg)
 
     switch (msg->type)
     {
-    case SKSE::MessagingInterface::kInputLoaded:
+    case SKSE::MessagingInterface::kNewGame:
+    case SKSE::MessagingInterface::kPostLoadGame:
     {
-        spdlog::info("[MSG] kInputLoaded");
-        SetupInputManagerAPI();
+        static bool s_apiInitialized = false;
+        if (!s_apiInitialized)
+        {
+            spdlog::info("[MSG] Getting the API");
+            SetupInputManagerAPI();
+            s_apiInitialized = true;
+        }
         break;
     }
     case SKSE::MessagingInterface::kDataLoaded:
