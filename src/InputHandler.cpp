@@ -41,7 +41,7 @@ void InputHandler::ProcessAndFilter(RE::InputEvent **head)
             if (IsBlockButton(btn) &&
                 BBC::g_suppressBlockInput.load(std::memory_order_relaxed))
             {
-                BBC_DEBUG_LOG("[BBC] Filtering block input during owned bash, value={}", btn->value);
+                BBC_DEBUG_LOG("[BBC] Filtering block input during owned bash, value={}", btn->Value());
 
                 if (prev)
                 {

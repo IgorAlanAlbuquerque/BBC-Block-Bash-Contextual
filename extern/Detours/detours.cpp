@@ -7,7 +7,7 @@
 //  Copyright (c) Microsoft Corporation.  All rights reserved.
 //
 
-#include <Windows.h>
+#include <windows.h>
 #ifdef GetObject
     #undef GetObject
 #endif

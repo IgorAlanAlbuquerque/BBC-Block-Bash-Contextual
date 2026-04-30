@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.21)
 cmake_policy(SET CMP0002 NEW)
 
-project(BlockBashContextual VERSION 1.1 LANGUAGES CXX)
+project(BlockBashContextual VERSION 1.1.1 LANGUAGES CXX)
 
 if(DEFINED ENV{SKYRIM_MODS_FOLDER} AND IS_DIRECTORY "$ENV{SKYRIM_MODS_FOLDER}")
     set(OUTPUT_FOLDER "$ENV{SKYRIM_MODS_FOLDER}/${PROJECT_NAME}")
@@ -18,22 +18,24 @@ get_target_property(COMMONLIB_SRC_DIR CommonLibSSE SOURCE_DIR)
 
 include(${COMMONLIB_SRC_DIR}/cmake/CommonLibSSE.cmake)
 
+include(cmake/CollectFiles.cmake)
 include(cmake/headerlist.cmake)
 include(cmake/sourcelist.cmake)
 
 add_commonlibsse_plugin(${PROJECT_NAME} SOURCES ${headers} ${sources})
 
 target_include_directories(${PROJECT_NAME}
-  PRIVATE
-  ${CMAKE_CURRENT_SOURCE_DIR}/include
-  PUBLIC
-  ${CMAKE_CURRENT_SOURCE_DIR}/src )
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+        ${CMAKE_CURRENT_SOURCE_DIR}/extern/InputManagerAPI
+        ${CMAKE_CURRENT_SOURCE_DIR}/extern/Detours
+)
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
 
-target_precompile_headers(${PROJECT_NAME} PRIVATE 
-  src/PCH.h
-)
+target_precompile_headers(${PROJECT_NAME} PRIVATE include/PCH.h)
 
 include(cmake/detours.cmake)
 
